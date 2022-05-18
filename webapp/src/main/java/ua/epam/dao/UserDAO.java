@@ -1,5 +1,6 @@
 package ua.epam.dao;
 
+import ua.epam.models.IUser;
 import ua.epam.models.Role;
 import ua.epam.models.User;
 
@@ -8,25 +9,25 @@ import java.util.List;
 
 public class UserDAO {
 
-    private final List<User> store = new ArrayList<>();
+    private final List<IUser> store = new ArrayList<>();
 
-    public List<User> getAll(){
+    public List<IUser> getAll(){
         return store;
     }
 
     public void deleteById(int id) {
-        User result = new User();
+        IUser result = new User();
         result.setId(-1);
 
         store.remove(store.stream().filter(user -> user.getId() == id).findFirst().get());
     }
 
-    public User getById(int id) {
+    public IUser getById(int id) {
 
-        User result = new User();
+        IUser result = new User();
         result.setId(-1);
 
-        for (User user : store) {
+        for (IUser user : store) {
             if (user.getId() == id) {
                 result = user;
             }
@@ -35,12 +36,12 @@ public class UserDAO {
         return result;
     }
 
-    public User getUserByLoginPassword(final String login, final String password) {
+    public IUser getUserByLoginPassword(final String login, final String password) {
 
-        User result = new User();
+        IUser result = new User();
         result.setId(-1);
 
-        for (User user : store) {
+        for (IUser user : store) {
             if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                 result = user;
             }
@@ -49,9 +50,9 @@ public class UserDAO {
         return result;
     }
 
-    public boolean add(final User user) {
+    public boolean add(final IUser user) {
 
-        for (User u : store) {
+        for (IUser u : store) {
             if (u.getLogin().equals(user.getLogin()) && u.getPassword().equals(user.getPassword())) {
                 return false;
             }
@@ -63,7 +64,7 @@ public class UserDAO {
     public Role getRoleByLoginPassword(final String login, final String password) {
         Role result = Role.UNREGISTERED;
 
-        for (User user : store) {
+        for (IUser user : store) {
             if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                 result = user.getRole();
             }
@@ -76,7 +77,7 @@ public class UserDAO {
 
         boolean result = false;
 
-        for (User user : store) {
+        for (IUser user : store) {
             if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
                 result = true;
                 break;

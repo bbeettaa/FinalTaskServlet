@@ -1,4 +1,4 @@
-package ua.epam.users.utils.UserValidator.tags;
+package ua.epam.users.utils.user.validator.tags;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Login {
-   final String regEx="\\w{4,16}";
+public @interface Password {
+    final String regEx = "^[\\d\\w-()!@#$%^&*]{5,16}$";
 }

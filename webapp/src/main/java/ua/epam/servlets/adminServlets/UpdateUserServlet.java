@@ -2,6 +2,7 @@ package ua.epam.servlets.adminServlets;
 
 import ua.epam.Path;
 import ua.epam.dao.UserDAO;
+import ua.epam.models.IUser;
 import ua.epam.models.User;
 
 import javax.servlet.ServletException;
@@ -30,7 +31,7 @@ public class UpdateUserServlet extends HttpServlet {
         final String login = req.getParameter("login");
         final String password = req.getParameter("password");
 
-        final User user = dao.get().getById(Integer.parseInt(id));
+        final IUser user = dao.get().getById(Integer.parseInt(id));
         user.setLogin(login);
         user.setPassword(password);
 
@@ -49,7 +50,7 @@ public class UpdateUserServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }*/
-        final User user = dao.get().getById(Integer.parseInt(id));
+        final IUser user = dao.get().getById(Integer.parseInt(id));
         req.setAttribute("user", user);
 
         req.getRequestDispatcher(Path.UPDATE_USER_MENU)

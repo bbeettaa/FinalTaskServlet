@@ -1,47 +1,45 @@
 package ua.epam.servlets;
 
+import org.apache.log4j.PropertyConfigurator;
+import ua.epam.LoggingHelper;
 import ua.epam.dao.UserDAO;
-import ua.epam.models.Role;
-import ua.epam.models.User;
+import ua.epam.models.IUser;
+import ua.epam.users.utils.UsersUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.*;
+//import java.util.logging.*;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class ContextListener implements ServletContextListener {
     private AtomicReference<UserDAO> dao;
-    public static Logger logger;
-    static {
-        try {
-            logger = Logger.getLogger(ContextListener.class.getSimpleName());
-            Handler fh = new FileHandler("prog.log");
-            fh.setFormatter(new SimpleFormatter());
-            logger.addHandler(fh);
-            logger.setLevel(Level.ALL);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static final Logger logger = LogManager.getLogger(ContextListener.class);
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         dao = new AtomicReference<>(new UserDAO());
+        for (IUser user : UsersUtils.createTestUsers())
+            dao.get().add(user);
 
-        dao.get().add(new User(1, "a", "1","email@gmail.com", Role.ADMIN));
-        dao.get().add(new User(2, "m1", "1","email@gmail.com", Role.MODERATOR));
-        dao.get().add(new User(3, "s1", "1","email@gmail.com", Role.SPEAKER));
-        dao.get().add(new User(4, "u1", "1","email@gmail.com", Role.USER));
+        //PropertyConfigurator.configure("log4j.properties");
+/*        LoggingHelper obj = new LoggingHelper();
+        obj.log();*/
+        //logger.warn("ApiServlet.init");
 
         final ServletContext servletContext =
                 servletContextEvent.getServletContext();
 
         servletContext.setAttribute("dao", dao);
+        //logger.info("hello");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        dao=null;
+        dao = null;
     }
+
 }

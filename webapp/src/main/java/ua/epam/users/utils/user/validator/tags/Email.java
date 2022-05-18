@@ -1,4 +1,4 @@
-package ua.epam.users.utils.UserValidator.tags;
+package ua.epam.users.utils.user.validator.tags;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

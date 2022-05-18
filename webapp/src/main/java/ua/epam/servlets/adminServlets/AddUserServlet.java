@@ -1,9 +1,10 @@
 package ua.epam.servlets.adminServlets;
 
 import ua.epam.dao.UserDAO;
+import ua.epam.models.IUser;
 import ua.epam.models.Role;
 import ua.epam.models.User;
-import ua.epam.users.utils.UserValidator.UserValidator;
+import ua.epam.users.utils.user.validator.UserValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,10 +36,11 @@ public class AddUserServlet extends HttpServlet {
             final String login = req.getParameter("login");
             final String password = req.getParameter("password");
             final Role role = Role
-                    .valueOf(Role.ADMIN.getDeclaringClass(),
+                    .valueOf(Role.UNREGISTERED.getDeclaringClass(),
                             req.getParameter("role").toUpperCase());
 
-            final User user = new User();
+
+            final IUser user = new User();
             final int id = this.id.getAndIncrement();
             user.setId(id);
             user.setPassword(password);

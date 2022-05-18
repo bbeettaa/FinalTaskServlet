@@ -2,6 +2,7 @@ package ua.epam.servlets.adminServlets;
 
 import ua.epam.Path;
 import ua.epam.dao.UserDAO;
+import ua.epam.models.IUser;
 import ua.epam.models.User;
 
 import javax.servlet.ServletException;
@@ -26,8 +27,8 @@ public class FindUserServlet extends HttpServlet {
             throws ServletException, IOException {
         final String login = req.getParameter("login");
 
-        final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();
-        for (User user: dao.get().getAll()) {
+        final CopyOnWriteArrayList<IUser> users = new CopyOnWriteArrayList<>();
+        for (IUser user: dao.get().getAll()) {
             if(user.getLogin().contains(login))
                 users.add(user);
         }
