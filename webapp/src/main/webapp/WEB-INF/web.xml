@@ -13,21 +13,21 @@
   <!--filter check exist session for sign in-->
   <filter>
     <filter-name>AuthFilter</filter-name>
-    <filter-class>ua.epam.filter.AuthFilter</filter-class>
+    <filter-class>ua.epam.controller.filter.AuthFilter</filter-class>
   </filter>
 
   <filter-mapping>
     <filter-name>AuthFilter</filter-name>
-    <url-pattern>/</url-pattern>
+    <servlet-name>Controller</servlet-name>
+    <url-pattern>/</url-pattern>>
   </filter-mapping>
-
   <!--============================================================
 	Encoding support filter
     =============================================================-->
 
   <filter>
     <filter-name>EncodingFilter</filter-name>
-    <filter-class>ua.epam.filter.EncodingFilter</filter-class>
+    <filter-class>ua.epam.controller.filter.EncodingFilter</filter-class>
     <init-param>
       <param-name>encoding</param-name>
       <param-value>utf-8</param-value>
@@ -43,72 +43,20 @@
   Servlets
   =============================================================-->
 
-  <!--Logout servlet-->
   <servlet>
-    <servlet-name>LogoutServlet</servlet-name>
-    <servlet-class>ua.epam.servlets.logout.LogoutServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>LogoutServlet</servlet-name>
-    <url-pattern>/logout</url-pattern>
-  </servlet-mapping>
-
-
-  <!--Index-->
-<servlet>
-  <servlet-name>AdminMenu</servlet-name>
-  <servlet-class>ua.epam.servlets.adminServlets.GetAllUsers</servlet-class>
-</servlet>
-  <servlet-mapping>
-    <servlet-name>AdminMenu</servlet-name>
-    <url-pattern>/allUsers</url-pattern>
-  </servlet-mapping>
-
-  <!--AddUserServlet-->
-  <servlet>
-    <servlet-name>addUser</servlet-name>
-    <servlet-class>ua.epam.servlets.adminServlets.AddUserServlet</servlet-class>
+    <servlet-name>Controller</servlet-name>
+    <servlet-class>ua.epam.controller.controller.Controller</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>addUser</servlet-name>
-    <url-pattern>/addUser</url-pattern>
+    <servlet-name>Controller</servlet-name>
+    <url-pattern>/controller</url-pattern>
   </servlet-mapping>
 
-  <!--DeleteUserServlet-->
-  <servlet>
-    <servlet-name>dellUser</servlet-name>
-    <servlet-class>ua.epam.servlets.adminServlets.DeleteUserServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>dellUser</servlet-name>
-    <url-pattern>/dellUser</url-pattern>
-  </servlet-mapping>
-
-  <!--UpdateUserServlet-->
-  <servlet>
-    <servlet-name>updateUser</servlet-name>
-    <servlet-class>ua.epam.servlets.adminServlets.UpdateUserServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>updateUser</servlet-name>
-    <url-pattern>/updateUser</url-pattern>
-  </servlet-mapping>
-
-<!--FindUserServlet-->
-  <servlet>
-    <servlet-name>findUsers</servlet-name>
-    <servlet-class>ua.epam.servlets.adminServlets.FindUserServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>findUsers</servlet-name>
-    <url-pattern>/findUsers</url-pattern>
-  </servlet-mapping>
   <!--============================================================
   Context listener
   =============================================================-->
   <listener>
-    <listener-class>ua.epam.servlets.ContextListener</listener-class>
+    <listener-class>ua.epam.controller.controller.ContextListener</listener-class>
   </listener>
 
 

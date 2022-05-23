@@ -1,0 +1,10 @@
+
+r
+java:S1488'"\Immediately return this expression instead of assigning it to the temporary variable "user".(Ç­‚û
+V	java:S125("<This block of commented-out lines of code should be removed.(þúÜŠÿÿÿÿÿ
+d
+java:S1128"NRemove this unused import 'ua.epam.users.utils.user.builder.builder.IBuilder'.(ù©†ç
+g
+java:S1128"QRemove this unused import 'ua.epam.users.utils.user.builder.builder.UserBuilder'.(¤®¤
+H
+java:S1128"-Remove this unused import 'java.util.Locale'.(åð×±ûÿÿÿÿ
