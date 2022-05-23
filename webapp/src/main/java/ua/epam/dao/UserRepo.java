@@ -1,12 +1,17 @@
 package ua.epam.dao;
 
+import ua.epam.dao.entities.DaoUserService;
 import ua.epam.models.Role;
-import ua.epam.models.entities.IUser;
+import ua.epam.models.entities.user.IUser;
 
 import java.util.List;
 import java.util.Objects;
 
-public class UserDao {
+/**
+ * @Facade to mysql connection pool
+ * */
+
+public class UserRepo {
     public boolean userIsExist(String login, String password) {
         DaoUserService dao = new DaoUserService();
         return dao.findAllUsers().stream()
@@ -16,16 +21,18 @@ public class UserDao {
 
     public Role getRoleByLoginPassword(String login, String password) {
         DaoUserService dao = new DaoUserService();
-        return dao.findAllUsers().stream()
+        java.util.Optional<IUser> optional = dao.findAllUsers().stream()
                 .filter(u -> Objects.equals(u.getLogin(), login)
-                        && Objects.equals(u.getPassword(), password)).findFirst().get().getRole();
+                        && Objects.equals(u.getPassword(), password)).findFirst();
+        return optional.map(IUser::getRole).orElse(null);
     }
 
     public IUser getUserByLoginPassword(String login, String password) {
         DaoUserService dao = new DaoUserService();
-        return dao.findAllUsers().stream()
+        java.util.Optional<IUser> optional = dao.findAllUsers().stream()
                 .filter(u -> Objects.equals(u.getLogin(), login)
-                        && Objects.equals(u.getPassword(), password)).findFirst().get();
+                        && Objects.equals(u.getPassword(), password)).findFirst();
+        return optional.orElse(null);
     }
 
     public boolean deleteById(int id) {
@@ -48,8 +55,9 @@ public class UserDao {
         return dao.add(user);
     }
 
-    public IUser getById(int id){
+    public IUser getById(int id) {
         DaoUserService dao = new DaoUserService();
-        return dao.findUserById(id);
+        java.util.Optional<IUser> optional = dao.findAllUsers().stream().filter(u -> u.getId() == id).findFirst();
+        return optional.orElse(null);
     }
 }

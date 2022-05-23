@@ -3,8 +3,8 @@ package ua.epam.controller.commands.admin;
 import ua.epam.AppContext;
 import ua.epam.controller.ViewPath;
 import ua.epam.controller.commands.ICommand;
-import ua.epam.dao.UserDao;
-import ua.epam.models.entities.IUser;
+import ua.epam.dao.UserRepo;
+import ua.epam.models.entities.user.IUser;
 import ua.epam.utils.user.builder.IBuilder;
 import ua.epam.utils.user.builder.UserBuilder;
 import ua.epam.utils.user.validator.UserValidator;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UpdateUserCommand implements ICommand {
-    private final AtomicReference<UserDao> userRepo;
+    private final AtomicReference<UserRepo> userRepo;
 
     public UpdateUserCommand() {
         userRepo = AppContext.USER_REPO;
@@ -28,14 +28,12 @@ public class UpdateUserCommand implements ICommand {
             req.setCharacterEncoding("UTF-8");
 
             final String id = req.getParameter("id");
-            //final IUser oldUser = userRepo.get().getById(Integer.parseInt(id));
             IBuilder builder = new UserBuilder();
             final IUser user = (IUser) builder.build(req);
             user.setId(Integer.parseInt(id));
 
             if (UserValidator.validate(user)) {
                 userRepo.get().update(user);
-                //req.setAttribute();
                 response = ViewPath.ALL_USERS_COMMAND;
             }
         } catch (IOException e) {

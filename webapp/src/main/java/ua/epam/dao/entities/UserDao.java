@@ -3,8 +3,7 @@ package ua.epam.dao.entities;
 import ua.epam.AppContext;
 import ua.epam.dao.utils.ConnectionCreator;
 import ua.epam.dao.utils.DaoUserBuilder;
-import ua.epam.models.entities.IUser;
-import ua.epam.models.entities.User;
+import ua.epam.models.entities.user.IUser;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,14 +13,14 @@ import java.util.List;
 
 public class UserDao extends AbstractDao<IUser> {
 
-    public static final String ALL_USER = "SELECT * FROM VideoLibrary.actors;";
+    public static final String ALL_USER = "SELECT * FROM conferences.user_table;";
     public static final String USER_BY_ID = "SELECT * FROM conferences.user_table WHERE user_id = ?;";
     public static final String DELETE_BY_ID = "DELETE FROM conferences.user_table WHERE user_id = ?;";
-    public static final String UPDATE_USER_BY_ID = "UPDATE user_table SET conferences.user_table.user_login = \"?\", \n" +
-            "user_table.user_pass = \"?\", user_table.user_email=\"?\", user_table.user_name =\"?\", user_table.user_surname=\"?\" WHERE user_id = ?;";
-    public static final String ADD_USER = "INSERT INTO user_table SET conferences.user_table.user_login = \"?\", " +
-            "user_table.user_pass = \"?\", user_table.user_email=\"?\", user_table.user_name =\"?\", " +
-            "user_table.user_surname=\"?\", user_table.user_role=\"?\";";
+    public static final String UPDATE_USER_BY_ID = "UPDATE user_table SET conferences.user_table.user_login = ?, \n" +
+            "user_table.user_pass = ?, user_table.user_email = ?, user_table.user_name = ?, user_table.user_surname = ? WHERE user_id = ?;";
+    public static final String ADD_USER = "INSERT INTO user_table SET conferences.user_table.user_login = ?, " +
+            "user_table.user_pass = ?, user_table.user_email = ?, user_table.user_name = ?, " +
+            "user_table.user_surname = ?, user_table.user_role = ?;";
 
     @Override
     public List<IUser> findAll() {
@@ -43,9 +42,9 @@ public class UserDao extends AbstractDao<IUser> {
 
         try (PreparedStatement prepareStatement = ConnectionCreator.createConnection().prepareStatement(USER_BY_ID)) {
             prepareStatement.setInt(1, id);
-            ResultSet resultSet = prepareStatement.executeQuery();
+            prepareStatement.execute();
 
-            user = DaoUserBuilder.buildUser(resultSet);
+            user = DaoUserBuilder.buildUser(prepareStatement.getResultSet());
         } catch (SQLException e) {
             AppContext.LOGGER.error(e.getMessage());
             user = null;
@@ -59,7 +58,7 @@ public class UserDao extends AbstractDao<IUser> {
 
         try (PreparedStatement prepareStatement = ConnectionCreator.createConnection().prepareStatement(DELETE_BY_ID)) {
             prepareStatement.setInt(1, id);
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
 
             statement = true;
         } catch (SQLException e) {
@@ -85,10 +84,9 @@ public class UserDao extends AbstractDao<IUser> {
             prepareStatement.setString(4, entity.getName());
             prepareStatement.setString(5, entity.getSurname());
             prepareStatement.setString(6, entity.getRole().toString());
-            prepareStatement.executeQuery();
 
-            if(prepareStatement.execute())
-                statement=true;
+            prepareStatement.execute();
+            statement = true;
         } catch (SQLException e) {
             AppContext.LOGGER.error(e.getMessage());
         }
@@ -106,9 +104,9 @@ public class UserDao extends AbstractDao<IUser> {
             prepareStatement.setString(4, entity.getName());
             prepareStatement.setString(5, entity.getSurname());
             prepareStatement.setInt(6, entity.getId());
-            prepareStatement.executeQuery();
+            prepareStatement.execute();
 
-            user=entity;
+            user = entity;
         } catch (SQLException e) {
             AppContext.LOGGER.error(e.getMessage());
         }

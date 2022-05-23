@@ -2,7 +2,7 @@ package ua.epam.controller.filter;
 
 import ua.epam.AppContext;
 import ua.epam.controller.ViewPath;
-import ua.epam.dao.UserDao;
+import ua.epam.dao.UserRepo;
 import ua.epam.models.Role;
 
 import javax.servlet.*;
@@ -16,8 +16,11 @@ import static java.util.Objects.isNull;
 
 public class AuthFilter implements Filter {
 
+    public static String LOGIN = "login";
+    public static String PASSWORD = "password";
+
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
@@ -29,28 +32,28 @@ public class AuthFilter implements Filter {
         final HttpServletResponse res = (HttpServletResponse) response;
         final HttpSession session = ((HttpServletRequest) request).getSession();
 
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
+        String login = req.getParameter(LOGIN);
+        String password = req.getParameter(PASSWORD);
 
         if (isNull(login) && isNull(password)) {
-            login = String.valueOf(session.getAttribute("login"));
-            password = String.valueOf(session.getAttribute("password"));
+            login = String.valueOf(session.getAttribute(LOGIN));
+            password = String.valueOf(session.getAttribute(PASSWORD));
         }
 
         //@SuppressWarnings("unchecked")
-        final AtomicReference<UserDao> dao = (AtomicReference<UserDao>) req.getServletContext().getAttribute("dao");
+        final AtomicReference<UserRepo> dao = AppContext.USER_REPO;
 
         //Logged user.
         try {
             if (dao.get().userIsExist(login, password)) {
                 final Role role = dao.get().getRoleByLoginPassword(login, password);
 
-                req.getSession().setAttribute("password", password);
-                req.getSession().setAttribute("login", login);
+                req.getSession().setAttribute(PASSWORD, password);
+                req.getSession().setAttribute(LOGIN, login);
                 req.getSession().setAttribute("role", role);
 
                 String action = req.getParameter("action");
-                if (action == null) action = "findUser";
+                if (action == null) action = LOGIN;
                 request.getRequestDispatcher("controller?action=" + action).forward(request, response);
             } else {
                 moveToMenu(req, res, Role.UNREGISTERED);
@@ -73,7 +76,6 @@ public class AuthFilter implements Filter {
 
         if (role.equals(Role.ADMIN)) {
             req.getRequestDispatcher("controller?action=login").forward(req, res);
-            //req.getRequestDispatcher("/allUsers").forward(req, res);
         } else if (role.equals(Role.USER)) {
             req.getRequestDispatcher(ViewPath.USER_MENU).forward(req, res);
         } else {

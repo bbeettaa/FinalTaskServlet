@@ -3,8 +3,8 @@ package ua.epam.controller.commands.admin;
 import ua.epam.AppContext;
 import ua.epam.controller.ViewPath;
 import ua.epam.controller.commands.ICommand;
-import ua.epam.dao.UserDao;
-import ua.epam.models.entities.IUser;
+import ua.epam.dao.UserRepo;
+import ua.epam.models.entities.user.IUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FindUserCommand implements ICommand {
-    private final AtomicReference<UserDao> userRepo;
+    private final AtomicReference<UserRepo> userRepo;
 
     public FindUserCommand() {
         userRepo = AppContext.USER_REPO;

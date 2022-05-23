@@ -1,5 +1,6 @@
 package ua.epam.controller.controller;
 
+import ua.epam.AppContext;
 import ua.epam.controller.commands.CommandFactory;
 import ua.epam.controller.commands.ICommand;
 
@@ -17,12 +18,23 @@ import static java.util.Objects.nonNull;
  */
 public class Controller extends HttpServlet {
 
-
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp){
+        try {
+            processRequest(req, resp);
+        } catch (ServletException | IOException e) {
+            AppContext.LOGGER.error(e.getMessage());
+        }
+    }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            processRequest(req, resp);
+        } catch (ServletException | IOException e) {
+            AppContext.LOGGER.error(e.getMessage());
+        }
+
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
@@ -31,7 +43,6 @@ public class Controller extends HttpServlet {
         ICommand ic = commandFactory.getCommand(req);
         String page = ic.execute(req, resp);
         RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-        //req.setAttribute("login",req.getAttribute("login"));
         if (!page.equals("redirect")) {
             dispatcher.forward(req, resp);
         }

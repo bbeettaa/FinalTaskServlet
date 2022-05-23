@@ -8,7 +8,8 @@ public class ViewPath {
         throw new IllegalStateException("Utility class");
     }
     public static final String ADMIN_MENU = "WEB-INF/view/admin/admin_menu.jsp";
-    public static final String USER_MENU = "WEB-INF/view/admin/user_menu.jsp";
+
+    public static final String USER_MENU = "WEB-INF/view/user/user_menu.jsp";
 
     public static final String UPDATE_USER ="WEB-INF/view/common/update.jsp";
     public static final String LOGIN_MENU ="WEB-INF/view/common/login.jsp";

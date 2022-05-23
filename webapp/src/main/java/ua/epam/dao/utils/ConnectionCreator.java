@@ -28,29 +28,13 @@ public class ConnectionCreator {
      * @registering the jdbc driver here
      */
     public static Connection createConnection() throws SQLException {
-        Connection connect;
-        Statement statement;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connect = DriverManager
-                    .getConnection("jdbc:mysql://localhost/conferences?user=root&password=root");
-            statement = connect.createStatement();
-
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASS);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return statement.getConnection();
 
-        //return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASS);
-        //return DriverManager.getConnection("jdbc:mysql://localhost/conferences?user=root&password=root").createStatement().getConnection();
-/*        Connection con=null;
-        try {
-            con = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASS);
-
-        } catch (SQLException e) {
-            AppContext.LOGGER.error(e.getMessage());
-        }
-        return con;*/
     }
 
 }

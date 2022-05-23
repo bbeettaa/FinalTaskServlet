@@ -3,7 +3,7 @@ package ua.epam.controller.commands.admin;
 import ua.epam.AppContext;
 import ua.epam.controller.ViewPath;
 import ua.epam.controller.commands.ICommand;
-import ua.epam.models.entities.IUser;
+import ua.epam.models.entities.user.IUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +17,10 @@ public class GetUpdatePageCommand implements ICommand {
         try {
             req.setCharacterEncoding("UTF-8");
 
+            int id = Integer.parseInt(req.getParameter("id"));
+
             final IUser user = AppContext.USER_REPO.get()
-                    .getById(Integer.parseInt(req.getParameter("id")));
+                    .getById(id);
 
             req.setAttribute("user", user);
             response = ViewPath.UPDATE_USER;

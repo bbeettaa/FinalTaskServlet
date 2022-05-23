@@ -3,7 +3,7 @@ package ua.epam.controller.commands.common;
 import ua.epam.AppContext;
 import ua.epam.controller.ViewPath;
 import ua.epam.controller.commands.ICommand;
-import ua.epam.models.entities.IUser;
+import ua.epam.models.entities.user.IUser;
 import ua.epam.models.Role;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,14 +38,15 @@ public class LoginCommand implements ICommand {
 
             if (userRole == Role.ADMIN) {
                 req.setAttribute("dao", AppContext.USER_REPO.get().getAll());
-                forward = ViewPath.ADMIN_MENU;
+                session.setAttribute("user", user);
+                session.setAttribute("userRole", userRole);
+                forward = ViewPath.FIND_USER_COMMAND;
             }
             else if (userRole == Role.USER) {
                 forward = ViewPath.USER_MENU;
             }
 
-            session.setAttribute("user", user);
-            session.setAttribute("userRole", userRole);
+
         }
         return forward;
     }

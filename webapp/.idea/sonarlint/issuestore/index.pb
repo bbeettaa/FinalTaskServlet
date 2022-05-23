@@ -9,8 +9,6 @@ p
 @src/main/java/ua/epam/users/utils/user/validator/tags/Email.java,7\6\7664920650f5a1848f9b7d0309bd6af0b31c4236
 W
 'src/main/java/ua/epam/models/IUser.java,d\d\dd7ebdd0480d152f003b933a63385536ecda5fd6
-X
-(src/main/webapp/WEB-INF/log4j.properties,e\4\e4dc62a5cae25b2d6e76633def3ed772afe4b7b4
 p
 @src/main/java/ua/epam/users/utils/user/validator/tags/Login.java,2\2\228d7411a7e5302063c2000529ceba9038c7acbc
 o

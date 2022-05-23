@@ -1,9 +1,7 @@
 package ua.epam.utils.user.validator;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import ua.epam.controller.controller.ContextListener;
+import ua.epam.AppContext;
 import ua.epam.utils.user.validator.tags.*;
 import ua.epam.utils.user.validator.tags.Number;
 
@@ -13,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserValidator {
-    private static final Logger logger = LogManager.getLogger(ContextListener.class);
 
     private UserValidator() {
         throw new IllegalStateException("Utility class");
@@ -28,7 +25,7 @@ public class UserValidator {
             correctEmail(object);
             number(object);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            AppContext.LOGGER.error(e.getMessage());
             return false;
         }
         return true;
@@ -38,7 +35,6 @@ public class UserValidator {
         Class<?> clazz = object.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Number.class)) {
-                field.setAccessible(true);
                 String value =  field.get(object).toString();
                 if (value == null ||
                         (value.length() <= 0) ||
@@ -54,7 +50,6 @@ public class UserValidator {
         Class<?> clazz = object.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Password.class)) {
-                field.setAccessible(true);
                 String value = (String) field.get(object);
                 Matcher matcher = Pattern.compile(Password.regEx)
                         .matcher(value);
@@ -69,12 +64,11 @@ public class UserValidator {
         Class<?> clazz = object.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Name.class)) {
-                field.setAccessible(true);
                 String value = (String) field.get(object);
                 Matcher matcher = Pattern.compile(Name.regEx)
                         .matcher(value);
                 if (!matcher.find())
-                    throw new IllegalArgumentException("cannot validate Name or Surname: " + value );
+                    throw new IllegalArgumentException("cannot validate Name or Surname by regex (\""+Name.regEx+"\"): " + value );
             }
         }
     }
@@ -83,7 +77,6 @@ public class UserValidator {
         Class<?> clazz = object.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Login.class)) {
-                field.setAccessible(true);
                 String value = (String) field.get(object);
                 Matcher matcher = Pattern.compile(Login.regEx)
                         .matcher(value);
@@ -106,7 +99,6 @@ public class UserValidator {
         Class<?> clazz = object.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Email.class)) {
-                field.setAccessible(true);
                 String value = (String) field.get(object);
                 Matcher matcher = Pattern.compile(Email.regEx)
                         .matcher(value);

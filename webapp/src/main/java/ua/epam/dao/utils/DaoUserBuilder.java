@@ -2,7 +2,7 @@ package ua.epam.dao.utils;
 
 import ua.epam.AppContext;
 import ua.epam.models.Role;
-import ua.epam.models.entities.User;
+import ua.epam.models.entities.user.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

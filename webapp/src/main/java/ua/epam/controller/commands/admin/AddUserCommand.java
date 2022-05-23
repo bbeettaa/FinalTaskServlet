@@ -3,9 +3,8 @@ package ua.epam.controller.commands.admin;
 import ua.epam.AppContext;
 import ua.epam.controller.ViewPath;
 import ua.epam.controller.commands.ICommand;
-import ua.epam.dao.DaoUserService;
-import ua.epam.dao.UserDao;
-import ua.epam.models.entities.IUser;
+import ua.epam.dao.UserRepo;
+import ua.epam.models.entities.user.IUser;
 import ua.epam.utils.user.builder.IBuilder;
 import ua.epam.utils.user.builder.UserBuilder;
 import ua.epam.utils.user.validator.UserValidator;
@@ -16,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 
 public class AddUserCommand implements ICommand {
-    private final AtomicReference<UserDao> userRepo;
+    private final AtomicReference<UserRepo> userRepo;
 
     public AddUserCommand() {
         userRepo = AppContext.USER_REPO;

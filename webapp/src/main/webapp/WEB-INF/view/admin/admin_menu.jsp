@@ -29,8 +29,11 @@
 
 <form method="post" action="">
     <input type="hidden" name="action" value="addUser">
-    <label><input type="text" name="loginToSet" style="width:9%">: Login</label><br>
-    <label><input type="text" name="passwordToSet" style="width:9%">: Password </label><br>
+    <label><input type="text" name="loginToSet" style="width:9%" minlength="5" maxlength="30" required>: Login</label><br>
+    <label><input type="text" name="passwordToSet" style="width:9%" minlength="5" maxlength="30" required>: Password </label><br>
+    <label><input type="email" name="emailToSet" style="width:9%">: Email </label><br>
+    <label><input type="text" name="nameToSet" style="width:9%" maxlength="30" >: Name </label><br>
+    <label><input type="text" name="surnameToSet" style="width:9%" maxlength="30" >: Surname </label><br>
 
     <label for="role">
     <select id="role" name="roleToSet" style="width:9%">
@@ -57,13 +60,20 @@
     <tr>
         <th>login</th>
         <th>pass</th>
+        <th>name</th>
+        <th>surname</th>
+        <th>email</th>
         <th>role</th>
     </tr>
     <c:forEach var="user" items="${requestScope.dao}">
         <tr>
             <ul>
+                <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.login}"/></td>
                 <td><c:out value="${user.password}"/></td>
+                <td><c:out value="${user.name}"/></td>
+                <td><c:out value="${user.surname}"/></td>
+                <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.role}"/></td>
                 <td>
                     <form method="post" action="" id="dell">

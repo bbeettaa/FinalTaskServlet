@@ -3,7 +3,7 @@ package ua.epam.controller.commands.admin;
 import ua.epam.AppContext;
 import ua.epam.controller.ViewPath;
 import ua.epam.controller.commands.ICommand;
-import ua.epam.dao.UserDao;
+import ua.epam.dao.UserRepo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DeleteUserCommand implements ICommand {
-    private final AtomicReference<UserDao> userRepo;
+    private final AtomicReference<UserRepo> userRepo;
 
     public DeleteUserCommand() {
         userRepo = AppContext.USER_REPO;

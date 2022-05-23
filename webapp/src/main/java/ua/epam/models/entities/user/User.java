@@ -1,10 +1,8 @@
-package ua.epam.models.entities;
+package ua.epam.models.entities.user;
 
 import ua.epam.models.Role;
-import ua.epam.utils.user.validator.tags.Login;
-import ua.epam.utils.user.validator.tags.NotNull;
+import ua.epam.utils.user.validator.tags.*;
 import ua.epam.utils.user.validator.tags.Number;
-import ua.epam.utils.user.validator.tags.Password;
 
 import java.util.StringJoiner;
 
@@ -22,7 +20,7 @@ public class User implements IUser{
    // @Email
     private String email;
    // @NotNull
-   // @Name
+    //@Name
     private String name;
     //@Name
     private String surname;
